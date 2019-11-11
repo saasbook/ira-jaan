@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_05_062447) do
+ActiveRecord::Schema.define(version: 2019_11_11_103914) do
 
   create_table "activities", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.integer "points_reward"
-    t.datetime "date"
     t.string "frequency"
     t.text "notes"
     t.text "feedback"
@@ -25,6 +24,19 @@ ActiveRecord::Schema.define(version: 2019_11_05_062447) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["administrator_id"], name: "index_activities_on_administrator_id"
+  end
+
+  create_table "administrators", force: :cascade do |t|
+    t.string "username"
+    t.string "password"
+    t.string "name"
+    t.integer "age"
+    t.string "email"
+    t.string "language"
+    t.text "description"
+    t.integer "points"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "child_activities", force: :cascade do |t|
@@ -45,6 +57,18 @@ ActiveRecord::Schema.define(version: 2019_11_05_062447) do
     t.index ["reward_id"], name: "index_child_rewards_on_reward_id"
   end
 
+  create_table "children", force: :cascade do |t|
+    t.string "username"
+    t.string "password"
+    t.string "name"
+    t.integer "age"
+    t.string "language"
+    t.text "description"
+    t.integer "points"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "connections", force: :cascade do |t|
     t.integer "child_id", null: false
     t.integer "administrator_id", null: false
@@ -63,20 +87,6 @@ ActiveRecord::Schema.define(version: 2019_11_05_062447) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["administrator_id"], name: "index_rewards_on_administrator_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "type"
-    t.string "username"
-    t.string "password"
-    t.string "name"
-    t.integer "age"
-    t.string "email"
-    t.string "language"
-    t.text "description"
-    t.integer "points"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "activities", "administrators"
