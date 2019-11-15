@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  points_reward: 1
+  date: 2019-11-04 22:16:13
+  frequency: MyString
+  notes: MyText
+  feedback: MyText
+  status: MyString
+  administrator: one
+
+two:
+  title: MyString
+  description: MyText
+  points_reward: 1
+  date: 2019-11-04 22:16:13
+  frequency: MyString
+  notes: MyText
+  feedback: MyText
+  status: MyString
+  administrator: two
