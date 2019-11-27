@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 // Redux action that calls API
-function setTasks() {
+function setTasks(tasks) {
   console.log("SET TASKS ACTION");
   // api request tasks
   return {
     type: "SET_TASKS",
-    tasks: ["task 1", "task 2"]
+    tasks
   };
 }
 
@@ -32,13 +32,20 @@ const styles = {
 // TaskScreen UI Component
 class TaskScreen extends Component {
   componentDidMount() {
-    this.props.setTasks();
+    fetch("/tasks/index")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        console.log("DATA:", data);
+        this.props.setTasks(data);
+      });
   }
   render() {
     return (
       <div style={styles.container}>
         {this.props.tasks.length
-          ? this.props.tasks.map(task => <p>{task}</p>)
+          ? this.props.tasks.map(task => <p>{task.name}</p>)
           : null}
       </div>
     );
