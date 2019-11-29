@@ -8,25 +8,31 @@ import {
   useHistory,
   useLocation
 } from "react-router-dom";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 import LoginScreen from "../screens/LoginScreen";
 import TaskScreen from "../screens/TaskScreen";
 
-export default function Navigation() {
+function Navigation(props) {
+  console.log("USER:", props.user);
   return (
     <Router>
       <div>
-        <ul>
+        {/* <ul>
           <li>
             <Link to="/login">Sign In</Link>
           </li>
           <li>
             <Link to="/tasks">Tasks</Link>
           </li>
-        </ul>
+        </ul> */}
 
         <Switch>
+          <Route exact path="/">
+            {props.user ? <Redirect to="/tasks" /> : <Redirect to="/login" />}
+          </Route>
           <Route path="/login">
-            <LoginScreen />
+            {props.user ? <Redirect to="/tasks" /> : <LoginScreen />}
           </Route>
           <Route path="/tasks">
             <TaskScreen />
@@ -36,3 +42,14 @@ export default function Navigation() {
     </Router>
   );
 }
+
+// Redux Container that passes in redux state
+const Container = connect(
+  createStructuredSelector({
+    user: state => state.user
+  }),
+  null
+)(Navigation);
+
+// We use the container in other files like a UI component
+export default Container;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import { Redirect } from "react-router-dom";
 
 // Redux action that calls API
 function setUser({ username, password }) {
@@ -20,12 +21,59 @@ const styles = {
     flexDirection: "column",
     flex: 1,
     height: "100vh",
-    margin: 0
+    margin: 0,
+    alignItems: "center",
+    justifyContent: "center"
   },
   title: {
-    fontSize: 36,
+    fontSize: 45,
     fontWeight: "800",
-    fontFamily: "Avenir"
+    fontFamily: "Helvetica",
+    color: "#383838",
+    margin: 0
+  },
+  textInput: {
+    height: 45,
+    width: 250,
+    padding: 0,
+    borderWidth: 0,
+    borderColor: "transparent",
+    borderRadius: 5,
+    marginTop: 10,
+    backgroundColor: "#F4F4F4"
+  },
+  button: {
+    height: 50,
+    width: 150,
+    marginTop: 20,
+    backgroundColor: "#6C72F8",
+    borderRadius: 5,
+    borderWidth: 0,
+    borderColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  buttonLabel: {
+    fontSize: 18,
+    fontWeight: "500",
+    fontFamily: "Helvetica",
+    color: "#FFFFFF",
+    margin: 0,
+    padding: 0
+  },
+  textInputContainer: {
+    marginTop: 35,
+    marginBottom: 25,
+    flexDirection: "column",
+    display: "flex"
+  },
+  textInputLabel: {
+    color: "#6A6A6A",
+    fontSize: 14,
+    margin: 0,
+    marginTop: 20,
+    fontFamily: "Helvetica",
+    fontWeight: "800"
   }
 };
 
@@ -48,29 +96,32 @@ class LoginScreen extends Component {
   }
   handleLogIn = () => {
     const { username, password } = this.state;
+    console.log("HERE", this.state);
     this.props.setUser({ username, password });
   };
   render() {
     return (
       <div style={styles.container}>
-        <p>Login</p>
-        <input
-          type="text"
-          value={this.state.username}
-          onChange={this.onChangeUsername}
-        />
-        <input
-          type="text"
-          value={this.state.password}
-          onChange={this.onChangePassword}
-        />
-        <button
-          title="GET THINGS"
-          style={{ width: 300 }}
-          onClick={this.handleLogIn}
-        />
-        <p>{this.props.user ? this.props.user.username : ""}</p>
-        <p>{this.props.stoof}</p>
+        <p style={styles.title}>Sign In</p>
+        <div style={styles.textInputContainer}>
+          <p style={styles.textInputLabel}>USERNAME</p>
+          <input
+            type="text"
+            value={this.state.username}
+            onChange={this.onChangeUsername}
+            style={styles.textInput}
+          />
+          <p style={styles.textInputLabel}>PASSWORD</p>
+          <input
+            type="text"
+            value={this.state.password}
+            onChange={this.onChangePassword}
+            style={styles.textInput}
+          />
+        </div>
+        <button style={styles.button} onClick={this.handleLogIn}>
+          <p style={styles.buttonLabel}>Sign In</p>
+        </button>
       </div>
     );
   }
