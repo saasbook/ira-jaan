@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import LoginScreen from "../screens/LoginScreen";
 import TaskScreen from "../screens/TaskScreen";
+import SignUpScreen from "../screens/SignUpScreen";
 
 function Navigation(props) {
   console.log("USER:", props.user);
@@ -30,6 +31,9 @@ function Navigation(props) {
         <Switch>
           <Route exact path="/">
             {props.user ? <Redirect to="/tasks" /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/signup">
+            <SignUpScreen />
           </Route>
           <Route path="/login">
             {props.user ? <Redirect to="/tasks" /> : <LoginScreen />}

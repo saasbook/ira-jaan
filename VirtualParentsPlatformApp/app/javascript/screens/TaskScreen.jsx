@@ -15,17 +15,71 @@ function setTasks(tasks) {
 // Component Styles
 const styles = {
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#FFFFFF",
     display: "flex",
     flexDirection: "column",
     flex: 1,
     height: "100vh",
-    margin: 0
+    margin: 0,
+    paddingLeft: 95,
+    paddingRight: 95
+    // paddingBottom: 60
   },
-  title: {
-    fontSize: 36,
+  header: {
+    fontSize: 70,
     fontWeight: "800",
-    fontFamily: "Avenir"
+    fontFamily: "Helvetica",
+    color: "#383838",
+    margin: 0,
+    padding: 0,
+    marginTop: 40
+  },
+  taskContainer: {
+    backgroundColor: "white",
+    display: "flex",
+    flexDirection: "row",
+    flex: 1,
+    margin: 0,
+    borderRadius: 10,
+    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.15)",
+    marginBottom: 60,
+    marginTop: 40
+  },
+  taskName: {
+    fontSize: 30,
+    fontFamily: "Helvetica",
+    color: "#383838",
+    fontWeight: "600",
+    marginLeft: 15
+  },
+  emptyCheckBox: {
+    height: 20,
+    width: 20,
+    borderRadius: 5,
+    border: "3px solid #383838",
+    marginLeft: 40
+  },
+  fullCheckBox: {
+    height: 20,
+    width: 20,
+    borderRadius: 5,
+    border: "3px solid #6C72F8",
+    marginLeft: 40,
+    backgroundColor: "#6C72F8"
+  },
+  taskCell: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  taskList: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1
+  },
+  divider: {
+    width: 1,
+    backgroundColor: "#E4E4E4"
   }
 };
 
@@ -44,19 +98,51 @@ class TaskScreen extends Component {
   render() {
     return (
       <div style={styles.container}>
-        {this.props.tasks.length
-          ? this.props.tasks.map(task => <p>{task.name}</p>)
-          : null}
+        <p style={styles.header}>Daily Goals</p>
+        <div style={styles.taskContainer}>
+          <div style={styles.taskList}>
+            {this.props.tasksToDo.length
+              ? this.props.tasksToDo.map(task => <TaskCell task={task} />)
+              : null}
+          </div>
+          <Divider />
+          <div style={styles.taskList}>
+            {this.props.tasksCompleted.length
+              ? this.props.tasksCompleted.map(task => <TaskCell task={task} />)
+              : null}
+          </div>
+        </div>
       </div>
     );
   }
+}
+
+function Divider() {
+  return <div style={styles.divider} />;
+}
+
+function TaskCell(props) {
+  return (
+    <div style={styles.taskCell}>
+      <div
+        style={
+          props.task.status === "COMPLETED"
+            ? styles.fullCheckBox
+            : styles.emptyCheckBox
+        }
+      />
+      <p style={styles.taskName}>{props.task.name}</p>
+    </div>
+  );
 }
 
 // Redux Container that passes in redux state
 const Container = connect(
   createStructuredSelector({
     user: state => state.user,
-    tasks: state => state.tasks
+    tasksToDo: state => state.tasks.filter(task => task.status !== "COMPLETED"),
+    tasksCompleted: state =>
+      state.tasks.filter(task => task.status === "COMPLETED")
   }),
   { setTasks }
 )(TaskScreen);

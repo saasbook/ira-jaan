@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 // Redux action that calls API
 function setUser({ username, password }) {
@@ -122,6 +122,9 @@ class LoginScreen extends Component {
         <button style={styles.button} onClick={this.handleLogIn}>
           <p style={styles.buttonLabel}>Sign In</p>
         </button>
+        <Link to="/signup" style={styles.textInputLabel}>
+          Don't have an account? Sign up
+        </Link>
       </div>
     );
   }
