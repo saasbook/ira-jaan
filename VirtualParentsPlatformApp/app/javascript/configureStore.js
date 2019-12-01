@@ -12,6 +12,7 @@ function rootReducer(state, action) {
   console.log(action.type, action);
   switch (action.type) {
     case "SET_USER":
+      console.log("USER:", action.user);
       return { ...state, user: action.user };
     case "SET_TASKS":
       return { ...state, tasks: action.tasks };

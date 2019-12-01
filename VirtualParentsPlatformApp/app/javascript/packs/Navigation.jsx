@@ -28,12 +28,21 @@ function Navigation(props) {
           </li>
         </ul> */}
 
+        {/* Drop Down Nav Menu */}
+        {/* <div
+          style={{
+            height: 50,
+            width: 50,
+            position: "absolute",
+          }}
+        /> */}
+
         <Switch>
           <Route exact path="/">
             {props.user ? <Redirect to="/tasks" /> : <Redirect to="/login" />}
           </Route>
           <Route path="/signup">
-            <SignUpScreen />
+            {props.user ? <Redirect to="/tasks" /> : <SignUpScreen />}
           </Route>
           <Route path="/login">
             {props.user ? <Redirect to="/tasks" /> : <LoginScreen />}

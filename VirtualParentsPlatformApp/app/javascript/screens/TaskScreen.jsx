@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import axios from "axios";
 
 // Redux action that calls API
 function setTasks(tasks) {
@@ -34,6 +35,17 @@ const styles = {
     padding: 0,
     marginTop: 40
   },
+  columnHeader: {
+    fontSize: 32,
+    fontWeight: "800",
+    fontFamily: "Helvetica",
+    color: "#383838",
+    margin: 0,
+    padding: 0,
+    marginTop: 30,
+    marginBottom: 10,
+    marginLeft: 35
+  },
   taskContainer: {
     backgroundColor: "white",
     display: "flex",
@@ -46,7 +58,7 @@ const styles = {
     marginTop: 40
   },
   taskName: {
-    fontSize: 30,
+    fontSize: 25,
     fontFamily: "Helvetica",
     color: "#383838",
     fontWeight: "600",
@@ -86,14 +98,13 @@ const styles = {
 // TaskScreen UI Component
 class TaskScreen extends Component {
   componentDidMount() {
-    fetch("/tasks/index")
+    axios
+      .get("/tasks/index")
       .then(response => {
-        return response.json();
+        let tasks = response.data;
+        this.props.setTasks(tasks);
       })
-      .then(data => {
-        console.log("DATA:", data);
-        this.props.setTasks(data);
-      });
+      .catch(error => console.log(error));
   }
   render() {
     return (
@@ -101,12 +112,14 @@ class TaskScreen extends Component {
         <p style={styles.header}>Daily Goals</p>
         <div style={styles.taskContainer}>
           <div style={styles.taskList}>
+            <p style={styles.columnHeader}>To-do</p>
             {this.props.tasksToDo.length
               ? this.props.tasksToDo.map(task => <TaskCell task={task} />)
               : null}
           </div>
           <Divider />
           <div style={styles.taskList}>
+            <p style={styles.columnHeader}>Done</p>
             {this.props.tasksCompleted.length
               ? this.props.tasksCompleted.map(task => <TaskCell task={task} />)
               : null}

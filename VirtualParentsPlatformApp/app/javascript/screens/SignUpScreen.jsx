@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { Redirect, Link } from "react-router-dom";
+import axios from "axios";
+import $ from "jquery";
 
 // Redux action that calls API
-function setUser({ username, password }) {
-  console.log("GET THINGS ACTION");
-  //   try login
+function setUser(user) {
+  console.log("USER IN ACTION:", user);
   return {
     type: "SET_USER",
-    user: { username }
+    user
   };
 }
 
@@ -22,8 +23,8 @@ const styles = {
     flex: 1,
     height: "100vh",
     margin: 0,
-    alignItems: "center"
-    // justifyContent: "center"
+    alignItems: "center",
+    paddingBottom: 100
   },
   title: {
     fontSize: 45,
@@ -45,7 +46,6 @@ const styles = {
   button: {
     height: 50,
     width: 150,
-    marginTop: 20,
     backgroundColor: "#6C72F8",
     borderRadius: 5,
     borderWidth: 0,
@@ -58,7 +58,7 @@ const styles = {
     fontWeight: "500",
     fontFamily: "Helvetica",
     color: "#FFFFFF",
-    margin: 0,
+    marginTop: 14,
     padding: 0
   },
   textInputContainer: {
@@ -119,6 +119,15 @@ const styles = {
     fontFamily: "Helvetica",
     fontWeight: "600",
     color: "#383838"
+  },
+  buttonContainer: {
+    padding: 0,
+    margin: 0,
+    borderWidth: 0,
+    borderColor: "transparent",
+    display: "flex",
+    flexDirection: "column",
+    outline: "none"
   }
 };
 
@@ -129,27 +138,111 @@ class LoginScreen extends Component {
     this.state = {
       username: "",
       password: "",
-      selectedRole: "Student"
+      firstName: "",
+      lastName: "",
+      age: "",
+      language: "English",
+      selectedRole: "Student",
+      email: ""
     };
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
   }
-  onChangeUsername(event) {
+  onChangeUsername = event => {
     this.setState({ username: event.target.value });
-  }
-  onChangePassword(event) {
+  };
+  onChangePassword = event => {
     this.setState({ password: event.target.value });
-  }
+  };
+  onChangeFirstName = event => {
+    this.setState({ firstName: event.target.value });
+  };
+  onChangeLastName = event => {
+    this.setState({ lastName: event.target.value });
+  };
+  onChangeAge = event => {
+    this.setState({ age: event.target.value });
+  };
+  onChangeEmail = event => {
+    this.setState({ email: event.target.value });
+  };
   handleLogIn = () => {
     const { username, password } = this.state;
-    console.log("HERE", this.state);
-    this.props.setUser({ username, password });
+    // this.props.setUser({ username, password });
+    this.createChild();
   };
   setSelectedRole = role => {
     this.setState({ selectedRole: role });
   };
+  createChild = () => {
+    // TO DO: validation
+    const {
+      username,
+      password,
+      firstName,
+      lastName,
+      age,
+      language
+    } = this.state;
+    let name = firstName + " " + lastName;
+    axios
+      .post("/child/create", {
+        child: {
+          username,
+          password,
+          name,
+          age,
+          language,
+          description: "",
+          points: 0
+        }
+      })
+      .then(response => {
+        let child = response.data.child;
+        this.props.setUser(child);
+      })
+      .catch(error => console.log(error));
+  };
+  createAdmin = () => {
+    // TO DO: validation
+    const {
+      username,
+      password,
+      firstName,
+      lastName,
+      age,
+      email,
+      language,
+      description
+    } = this.state;
+    let name = firstName + " " + lastName;
+    axios
+      .post("admin/create", {
+        administrator: {
+          username: "shawn9",
+          password: "shawn",
+          name: "shawn",
+          age: "99",
+          email: "shawn@shawn.com",
+          language: "English",
+          description: "",
+          points: 0
+        }
+      })
+      .then(response => {
+        let administrator = response.data.administrator;
+        this.props.setUser(administrator);
+      })
+      .catch(error => console.log(error));
+  };
   render() {
-    const { selectedRole, username, password } = this.state;
+    const {
+      selectedRole,
+      username,
+      password,
+      firstName,
+      lastName,
+      age,
+      email
+    } = this.state;
     return (
       <div style={styles.container}>
         {/* <p style={styles.title}>Sign Up</p> */}
@@ -160,10 +253,22 @@ class LoginScreen extends Component {
         <RoleForm
           selectedRole={selectedRole}
           username={username}
+          onChangeUsername={this.onChangeUsername}
           password={password}
+          onChangePassword={this.onChangePassword}
+          firstName={firstName}
+          onChangeFirstName={this.onChangeFirstName}
+          lastName={lastName}
+          onChangeLastName={this.onChangeLastName}
+          age={age}
+          onChangeAge={this.onChangeAge}
+          email={email}
+          onChangeEmail={this.onChangeEmail}
         />
-        <button style={styles.button} onClick={this.handleLogIn}>
-          <p style={styles.buttonLabel}>Sign Up</p>
+        <button style={styles.buttonContainer} onClick={this.handleLogIn}>
+          <div style={styles.button}>
+            <p style={styles.buttonLabel}>Sign Up</p>
+          </div>
         </button>
         <Link to="/login" style={styles.textInputLabel}>
           Have an account? Sign in
@@ -186,15 +291,15 @@ function StudentForm(props) {
       <p style={styles.textInputLabel}>FIRST NAME</p>
       <input
         type="text"
-        value={props.username}
-        onChange={props.onChangeUsername}
+        value={props.firstName}
+        onChange={props.onChangeFirstName}
         style={styles.textInput}
       />
       <p style={styles.textInputLabel}>LAST NAME</p>
       <input
         type="text"
-        value={props.username}
-        onChange={props.onChangeUsername}
+        value={props.lastName}
+        onChange={props.onChangeLastName}
         style={styles.textInput}
       />
       <p style={styles.textInputLabel}>USERNAME</p>
@@ -211,18 +316,11 @@ function StudentForm(props) {
         onChange={props.onChangePassword}
         style={styles.textInput}
       />
-      <p style={styles.textInputLabel}>DATE OF BIRTH</p>
+      <p style={styles.textInputLabel}>AGE</p>
       <input
         type="text"
-        value={props.password}
-        onChange={props.onChangePassword}
-        style={styles.textInput}
-      />
-      <p style={styles.textInputLabel}>SELECT PARENT / TEACHER</p>
-      <input
-        type="text"
-        value={props.password}
-        onChange={props.onChangePassword}
+        value={props.age}
+        onChange={props.onChangeAge}
         style={styles.textInput}
       />
     </div>
@@ -235,22 +333,22 @@ function AdminForm(props) {
       <p style={styles.textInputLabel}>FIRST NAME</p>
       <input
         type="text"
-        value={props.username}
-        onChange={props.onChangeUsername}
+        value={props.firstName}
+        onChange={props.onChangeFirstName}
         style={styles.textInput}
       />
       <p style={styles.textInputLabel}>LAST NAME</p>
       <input
         type="text"
-        value={props.username}
-        onChange={props.onChangeUsername}
+        value={props.lastName}
+        onChange={props.onChangeLastName}
         style={styles.textInput}
       />
       <p style={styles.textInputLabel}>EMAIL</p>
       <input
         type="text"
-        value={props.username}
-        onChange={props.onChangeUsername}
+        value={props.email}
+        onChange={props.onChangeEmail}
         style={styles.textInput}
       />
       <p style={styles.textInputLabel}>USERNAME</p>
