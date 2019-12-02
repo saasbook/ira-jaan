@@ -15,12 +15,20 @@ class ChildController < ApplicationController
     end
 
     def index
-        @search = params[:search]
-        if @search
-            @admins = Child.where("username LIKE ? OR name LIKE ?", "%#{@search}%")
+        # flash[:notice] = "#{@child.username}, your profile was successfully created."
+        # redirect_to children_path(@child)
+        if @child.save
+            render :json => { child: @child }
         else
-            @admins = Child.all
+            render :json => { }, :status => 500
         end
+
+        # @search = params[:search]
+        # if @search
+        #     @admins = Child.where("username LIKE ? OR name LIKE ?", "%#{@search}%")
+        # else
+        #     @admins = Child.all
+        # end
     end
 
     # Returns a form for creating a new profile page
