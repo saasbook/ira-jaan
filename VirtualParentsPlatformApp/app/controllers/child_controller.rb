@@ -34,9 +34,6 @@ class ChildController < ApplicationController
         else
             render :json => { }, :status => 500
         end
-        # session[:child_id] = @child.id
-        # flash[:notice] = "#{@child.username}, your profile was successfully created."
-        # redirect_to children_path(@child)
     end
 
     def show
