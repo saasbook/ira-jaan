@@ -3,7 +3,7 @@ class ChildController < ApplicationController
     # before_action :authenticate_child!
 
     before_action :set_child, only: [:show, :edit, :update, :destroy, :connect]
-    skip_before_action :authorized, only: [:new, :create]
+    # skip_before_action :authorized, only: [:new, :create]
 
     def child_params
         params.require(:child).permit(:username, :password, :name, :age,
@@ -29,9 +29,14 @@ class ChildController < ApplicationController
 
     def create
         @child = Child.create!(child_params)
-        session[:child_id] = @child.id
-        flash[:notice] = "#{@child.username}, your profile was successfully created."
-        redirect_to children_path(@child)
+        if @child.save
+            render :json => { child: @child } 
+        else
+            render :json => { }, :status => 500
+        end
+        # session[:child_id] = @child.id
+        # flash[:notice] = "#{@child.username}, your profile was successfully created."
+        # redirect_to children_path(@child)
     end
 
     def show
