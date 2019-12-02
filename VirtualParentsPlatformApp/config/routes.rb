@@ -20,4 +20,10 @@ Rails.application.routes.draw do
 
   post 'child/create'
   get 'tasks/index'
+
+  # react navigation routes fallback to react app
+  get '/login' => 'welcome#index'
+  get '/signup' => 'welcome#index'
+  get '/tasks' => 'welcome#index'
+  get '/profile' => 'welcome#index'
 end

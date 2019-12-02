@@ -99,24 +99,24 @@ class LoginScreen extends Component {
     const { username, password } = this.state;
     console.log("HERE", this.state);
     // see if user exists and if so then setUser
-    axios
-      .post("admin/create", {
-        administrator: {
-          username: "shawn9",
-          password: "shawn",
-          name: "shawn",
-          age: "99",
-          email: "shawn@shawn.com",
-          language: "English",
-          description: "",
-          points: 0
-        }
-      })
-      .then(response => {
-        let administrator = response.data.administrator;
-        this.props.setUser(administrator);
-      })
-      .catch(error => console.log(error));
+    // axios
+    //   .post("admin/create", {
+    //     administrator: {
+    //       username: "shawn9",
+    //       password: "shawn",
+    //       name: "shawn",
+    //       age: "99",
+    //       email: "shawn@shawn.com",
+    //       language: "English",
+    //       description: "",
+    //       points: 0
+    //     }
+    //   })
+    //   .then(response => {
+    //     let administrator = response.data.administrator;
+    //     this.props.setUser(administrator);
+    //   })
+    //   .catch(error => console.log(error));
     this.props.setUser({ username, password });
   };
   render() {
