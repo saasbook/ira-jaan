@@ -60,7 +60,7 @@ class AdministratorController < ApplicationController
   def update_points
       @admin = Administrator.find params[:id]
       params.require(:points)
-      @admin.points = params[:points]
+      @admin.points += params[:points]
       @admin.save!
       flash[:notice] = "Points updated"
       redirect_to administrator_path(@admin)

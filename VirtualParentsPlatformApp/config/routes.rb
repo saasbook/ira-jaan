@@ -10,7 +10,10 @@ Rails.application.routes.draw do
 
   # AdministratorController
   resources :administrators do
-      resources :activities, :rewards
+      resources :activities do
+          get 'start', to: 'activities#start', as: :start_activity, on: :member
+      end
+      resources :rewards
   end
   get 'administrators/:id/connect', to: 'administrators#connect', as: :connect_admin
   get 'administrators/:id/points', to: 'administrators#add_points', as: :admin_points
@@ -18,7 +21,13 @@ Rails.application.routes.draw do
 
   # ChildController
   resources :children do
-      resources :activities, :rewards
+      resources :activities do
+          member do
+              get 'finish', to: 'activities#finish', as: :finish_activity
+              get 'approve', to: 'activities#approve', as: :approve_activity
+          end
+      end
+      resources :rewards
   end
   get 'children/:id/connect', to: 'children#connect', as: :connect_child
 

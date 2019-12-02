@@ -6,17 +6,17 @@ class ApplicationController < ActionController::Base
     # helper_method :current_user
     # helper_method :logged_in?
 
-    # def current_user
-    #     if session[:administrator_id]
-    #         return Administrator.find_by(id: session[:administrator_id])
-    #     elsif session[:child_id]
-    #         return Child.find_by(id: session[:child_id])
-    #     end
-    # end
+    def current_user
+        if session[:administrator_id]
+            return Administrator.find_by(id: session[:administrator_id])
+        elsif session[:child_id]
+            return Child.find_by(id: session[:child_id])
+        end
+    end
 
-    # def logged_in?
-    #     return !current_user.nil?
-    # end
+    def logged_in?
+        return !current_user.nil?
+    end
 
     # def authorized
     #     redirect_to '/welcome/index' unless logged_in?

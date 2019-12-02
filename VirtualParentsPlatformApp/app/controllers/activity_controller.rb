@@ -4,11 +4,11 @@ class ActivityController < ApplicationController
     # NOTE: @user can be either an administrator or child
     before_action :get_admin, if: -> {params[:administrator_id].present?}
     before_action :get_child, if: -> {params[:child_id].present?}
-    before_action :set_activity, only: [:show, :edit, :update, :destroy]
+    before_action :set_activity, only: [:show, :edit, :update, :destroy, :start, :finish, :approve]
 
     def activity_params
         params.require(:activity).permit(:title, :description, :points_reward,
-        :frequency, :notes, :feedback, :status, :activity_id)
+        :frequency, :notes, :feedback, :activity_id)
     end
 
     def get_admin
@@ -55,5 +55,43 @@ class ActivityController < ApplicationController
     def destroy
         @activity.destroy
         flash[:notice] = "Activity \"#{@activity.title}\" was deleted."
+    end
+
+    # Used by child users to start a certain activity.
+    # Context: child is on the page of an activity owned by an administrator
+    def start
+        @child = current_user
+        if @child.instance_of? Child
+            @child.activities << @activity
+            @child_activity = @child.child_activities.where(activity_id: @activity.id).first
+            @child_activity.status = "Started"
+        end
+    end
+
+    # Used by child users to mark an activity they've started as finished.
+    # Context: child is on the page of an activity started by them.
+    def finish
+        @child = current_user
+        if @child.id == @user.id && @child.instance_of? Child
+            @child_activity = @child.child_activities.where(activity_id: @activity.id).first
+            @child_activity.status = "Finished"
+        end
+    end
+
+    # Used by administrators to approve a certain child's finished activity.
+    # Removes this activity from the child and gives the points to the child.
+    # Context: administrator is on the page of an activity finished by a child.
+    def approve
+        @admin = current_user
+        if @admin.instance_of? Administrator
+            @admin.points -= @activity.points_reward
+            if @admin.points < 0
+                flash[:notice] = "You don't have enough points to approve this activity!"
+                @admin.points += @activity.points_reward
+            else
+                @user.activities.delete(@activity)
+                @user.points += @activity.points_reward
+            end
+        end
     end
 end
