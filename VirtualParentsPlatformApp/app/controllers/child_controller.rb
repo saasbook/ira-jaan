@@ -15,20 +15,12 @@ class ChildController < ApplicationController
     end
 
     def index
-        # flash[:notice] = "#{@child.username}, your profile was successfully created."
-        # redirect_to children_path(@child)
-        if @child.save
-            render :json => { child: @child }
+        @search = params[:search]
+        if @search
+            @admins = Child.where("username LIKE ? OR name LIKE ?", "%#{@search}%")
         else
-            render :json => { }, :status => 500
+            @admins = Child.all
         end
-
-        # @search = params[:search]
-        # if @search
-        #     @admins = Child.where("username LIKE ? OR name LIKE ?", "%#{@search}%")
-        # else
-        #     @admins = Child.all
-        # end
     end
 
     # Returns a form for creating a new profile page
@@ -37,9 +29,16 @@ class ChildController < ApplicationController
 
     def create
         @child = Child.create!(child_params)
-        session[:child_id] = @child.id
-        flash[:notice] = "#{@child.username}, your profile was successfully created."
-        redirect_to children_path(@child)
+        # flash[:notice] = "#{@child.username}, your profile was successfully created."
+        # redirect_to children_path(@child)
+        if @child.save
+            render :json => { child: @child }
+        else
+            render :json => { }, :status => 500
+        end
+        # session[:child_id] = @child.id
+        # flash[:notice] = "#{@child.username}, your profile was successfully created."
+        # redirect_to children_path(@child)
     end
 
     def show
