@@ -1,11 +1,13 @@
 class ChildController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_action :set_child, only: [:show, :edit, :update, :destroy]
     # before_action :authenticate_child!
+
+    before_action :set_child, only: [:show, :edit, :update, :destroy, :connect]
+    skip_before_action :authorized, only: [:new, :create]
 
     def child_params
         params.require(:child).permit(:username, :password, :name, :age,
-             :language, :description, :points)
+             :language, :description, :points, :search)
     end
 
     def set_child
@@ -13,8 +15,12 @@ class ChildController < ApplicationController
     end
 
     def index
-        # Needs to be implemented in context of being able to search for users
-        # NEXT ITERATION
+        @search = params[:search]
+        if @search
+            @admins = Child.where("username LIKE ? OR name LIKE ?", "%#{@search}%")
+        else
+            @admins = Child.all
+        end
     end
 
     # Returns a form for creating a new profile page
@@ -23,13 +29,9 @@ class ChildController < ApplicationController
 
     def create
         @child = Child.create!(child_params)
-        # flash[:notice] = "#{@child.username}, your profile was successfully created."
-        # redirect_to children_path(@child)
-        if @child.save
-            render :json => { child: @child } 
-        else
-            render :json => { }, :status => 500
-        end
+        session[:child_id] = @child.id
+        flash[:notice] = "#{@child.username}, your profile was successfully created."
+        redirect_to children_path(@child)
     end
 
     def show
@@ -50,5 +52,15 @@ class ChildController < ApplicationController
         @child.destroy
         flash[:notice] = "Your profile was deleted."
         redirect_to children_path
+    end
+
+    # Connect this child to the current user (who must be an administrator)
+    def connect
+        @user = current_user
+        if @user.instance_of? Administrator
+            @user.children << @child
+        else
+            flash[:notice] = "Only an administrator can connect to a child"
+        end
     end
 end
