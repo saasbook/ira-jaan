@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'login/index'
   post 'login/administrator'
   post 'login/child'
+  get 'logout', to: 'login#logout', as: :logout
   get 'welcome/index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'welcome#index'

@@ -25,4 +25,10 @@ class LoginController < ApplicationController
           redirect_to '/login/child'
       end
   end
+
+  def logout
+      session[:child_id] = nil
+      session[:administrator_id] = nil
+      redirect_to '/welcome/index'
+  end
 end
