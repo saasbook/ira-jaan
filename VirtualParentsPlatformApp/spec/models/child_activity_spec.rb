@@ -7,7 +7,7 @@ describe ChildActivity do
         let(:admin) {Administrator.new(username: "john", password: "password",
             name: "John Smith", points: 0, email:"johnsmith@gmail.com")}
         let(:activity) {Activity.new(title: "Do Chores", points_reward: 10,
-            status: "working on", frequency: "once a day", administrator: admin)}
+            frequency: "once a day", administrator: admin)}
         subject {ChildActivity.new(child: child, activity: activity)}
         it "is valid with valid attributes" do
             expect(subject).to be_valid

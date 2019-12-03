@@ -5,7 +5,7 @@ describe Activity do
         let(:admin) {Administrator.new(username: "john", password: "password",
             name: "John Smith", points: 0, email:"johnsmith@gmail.com")}
         subject {Activity.new(title: "Do Chores", points_reward: 10,
-            status: "working on", frequency: "once a day", administrator: admin)}
+            frequency: "once a day", administrator: admin)}
         it "is valid with valid attributes" do
             expect(subject).to be_valid
         end
@@ -15,10 +15,6 @@ describe Activity do
         end
         it "is not valid without a points reward" do
             subject.points_reward = nil
-            expect(subject).to_not be_valid
-        end
-        it "is not valid without a status" do
-            subject.status = nil
             expect(subject).to_not be_valid
         end
         it "is not valid without a frequency" do
