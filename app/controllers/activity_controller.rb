@@ -27,6 +27,7 @@ class ActivityController < ApplicationController
         # How to display list of activities directly on profile page instead
         # of having to click through?
         @activities = @user.activities
+        render :json => {activities: @activities}
     end
 
     # Returns form for creating a new activity
@@ -41,6 +42,7 @@ class ActivityController < ApplicationController
     end
 
     def show
+        render :json => {activity: @activity}
     end
 
     def edit
