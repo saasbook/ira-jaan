@@ -1,4 +1,4 @@
-class ChildController < ApplicationController
+class ChildrenController < ApplicationController
     skip_before_action :verify_authenticity_token
     # before_action :authenticate_child!
 
@@ -30,7 +30,7 @@ class ChildController < ApplicationController
     def create
         @child = Child.create!(child_params)
         if @child.save
-            render :json => { child: @child } 
+            render :json => { child: @child }
         else
             render :json => { }, :status => 500
         end

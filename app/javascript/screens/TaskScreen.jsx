@@ -99,10 +99,11 @@ const styles = {
 class TaskScreen extends Component {
   componentDidMount() {
     axios
-      .get("/tasks/index")
+      .get("administrators/3/activities")
       .then(response => {
-        let tasks = response.data;
-        this.props.setTasks(tasks);
+        console.log(response);
+        // let tasks = response.data;
+        // this.props.setTasks(tasks);
       })
       .catch(error => console.log(error));
   }

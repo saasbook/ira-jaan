@@ -184,7 +184,7 @@ class LoginScreen extends Component {
     } = this.state;
     let name = firstName + " " + lastName;
     axios
-      .post("/child/create", {
+      .post("/children/create", {
         child: {
           username,
           password,

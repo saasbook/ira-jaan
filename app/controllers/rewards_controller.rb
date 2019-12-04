@@ -1,4 +1,4 @@
-class RewardController < ApplicationController
+class RewardsController < ApplicationController
     # NOTE: @user can be either an administrator or child
     before_action :get_admin, if: -> {params[:administrator_id].present?}
     before_action :get_child, if: -> {params[:child_id].present?}

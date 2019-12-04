@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   end
   get 'children/:id/connect', to: 'children#connect', as: :connect_child
 
-  post 'child/create'
+  post 'children/create'
   get 'tasks/index'
 
   # react navigation routes fallback to react app
