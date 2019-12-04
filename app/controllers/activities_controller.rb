@@ -74,7 +74,7 @@ class ActivitiesController < ApplicationController
     # Context: child is on the page of an activity started by them.
     def finish
         @child = current_user
-        if @child.id == @user.id
+        if @child.instance_of? Child && @child.id == @user.id
             @child_activity = @child.child_activities.where(activity_id: @activity.id).first
             @child_activity.status = "Finished"
         end
@@ -93,6 +93,42 @@ class ActivitiesController < ApplicationController
             else
                 @user.activities.delete(@activity)
                 @user.points += @activity.points_reward
+            end
+        end
+    end
+
+    # Consolidates start, finish, and approve into a single POST method
+    # Should include params[:action]
+    def interact
+        action = params[:action]
+        if action == "start"
+            @child = current_user
+            if @child.instance_of? Child
+                @child.activities << @activity
+                @child_activity = @child.child_activities.where(activity_id: @activity.id).first
+                @child_activity.status = "Started"
+            end
+        end
+
+        if action == "finish"
+            @child = current_user
+            if @child.instance_of? Child && @child.id == @user.id
+                @child_activity = @child.child_activities.where(activity_id: @activity.id).first
+                @child_activity.status = "Finished"
+            end
+        end
+
+        if action == "approve"
+            @admin = current_user
+            if @admin.instance_of? Administrator
+                @admin.points -= @activity.points_reward
+                if @admin.points < 0
+                    flash[:notice] = "You don't have enough points to approve this activity!"
+                    @admin.points += @activity.points_reward
+                else
+                    @user.activities.delete(@activity)
+                    @user.points += @activity.points_reward
+                end
             end
         end
     end

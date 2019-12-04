@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :activities do
           get 'start', to: 'activities#start', as: :start_activity, on: :member
       end
+      post 'activities/:id', to: 'activities#interact'
       resources :rewards
   end
   get 'administrators/:id/connect', to: 'administrators#connect', as: :connect_admin
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
               get 'approve', to: 'activities#approve', as: :approve_activity
           end
       end
+      post 'activities/:id', to: 'activities#interact'
       resources :rewards
   end
   get 'children/:id/connect', to: 'children#connect', as: :connect_child
