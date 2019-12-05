@@ -32,6 +32,7 @@ class AdministratorsController < ApplicationController
   end
 
   def show
+      render :json => [{administrator: @admin}]
   end
 
   def edit
