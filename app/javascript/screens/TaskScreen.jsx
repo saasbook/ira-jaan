@@ -99,9 +99,9 @@ const styles = {
 class TaskScreen extends Component {
   componentDidMount() {
     axios
-      .get("/tasks/index")
+      .get("administrators/2/activities")
       .then(response => {
-        let tasks = response.data;
+        let tasks = response.data.activities;
         this.props.setTasks(tasks);
       })
       .catch(error => console.log(error));
@@ -144,7 +144,7 @@ function TaskCell(props) {
             : styles.emptyCheckBox
         }
       />
-      <p style={styles.taskName}>{props.task.name}</p>
+      <p style={styles.taskName}>{props.task.title}</p>
     </div>
   );
 }

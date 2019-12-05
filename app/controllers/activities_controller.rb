@@ -1,6 +1,6 @@
 # This tutorial is very helpful for nested resources implementation:
 # https://www.digitalocean.com/community/tutorials/how-to-create-nested-resources-for-a-ruby-on-rails-application
-class ActivityController < ApplicationController
+class ActivitiesController < ApplicationController
     # NOTE: @user can be either an administrator or child
     before_action :get_admin, if: -> {params[:administrator_id].present?}
     before_action :get_child, if: -> {params[:child_id].present?}
@@ -20,13 +20,14 @@ class ActivityController < ApplicationController
     end
 
     def set_activity
-        @activity = Post.find params[:id]
+        @activity = Activity.find params[:id]
     end
 
     def index
         # How to display list of activities directly on profile page instead
         # of having to click through?
         @activities = @user.activities
+        render :json => {activities: @activities}
     end
 
     # Returns form for creating a new activity
@@ -41,6 +42,7 @@ class ActivityController < ApplicationController
     end
 
     def show
+        render :json => {activity: @activity}
     end
 
     def edit
@@ -72,7 +74,7 @@ class ActivityController < ApplicationController
     # Context: child is on the page of an activity started by them.
     def finish
         @child = current_user
-        if @child.id == @user.id && @child.instance_of? Child
+        if @child.instance_of? Child && @child.id == @user.id
             @child_activity = @child.child_activities.where(activity_id: @activity.id).first
             @child_activity.status = "Finished"
         end
@@ -91,6 +93,42 @@ class ActivityController < ApplicationController
             else
                 @user.activities.delete(@activity)
                 @user.points += @activity.points_reward
+            end
+        end
+    end
+
+    # Consolidates start, finish, and approve into a single POST method
+    # Should include params[:action]
+    def interact
+        action = params[:action]
+        if action == "start"
+            @child = current_user
+            if @child.instance_of? Child
+                @child.activities << @activity
+                @child_activity = @child.child_activities.where(activity_id: @activity.id).first
+                @child_activity.status = "Started"
+            end
+        end
+
+        if action == "finish"
+            @child = current_user
+            if @child.instance_of? Child && @child.id == @user.id
+                @child_activity = @child.child_activities.where(activity_id: @activity.id).first
+                @child_activity.status = "Finished"
+            end
+        end
+
+        if action == "approve"
+            @admin = current_user
+            if @admin.instance_of? Administrator
+                @admin.points -= @activity.points_reward
+                if @admin.points < 0
+                    flash[:notice] = "You don't have enough points to approve this activity!"
+                    @admin.points += @activity.points_reward
+                else
+                    @user.activities.delete(@activity)
+                    @user.points += @activity.points_reward
+                end
             end
         end
     end
