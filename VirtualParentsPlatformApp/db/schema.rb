@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_11_103914) do
+ActiveRecord::Schema.define(version: 2019_12_02_062437) do
 
   create_table "activities", force: :cascade do |t|
     t.string "title"
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 2019_11_11_103914) do
     t.string "frequency"
     t.text "notes"
     t.text "feedback"
-    t.string "status"
     t.integer "administrator_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -44,6 +43,7 @@ ActiveRecord::Schema.define(version: 2019_11_11_103914) do
     t.integer "activity_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
     t.index ["activity_id"], name: "index_child_activities_on_activity_id"
     t.index ["child_id"], name: "index_child_activities_on_child_id"
   end

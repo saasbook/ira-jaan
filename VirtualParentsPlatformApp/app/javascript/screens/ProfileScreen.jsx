@@ -81,6 +81,65 @@ const styles = {
   divider: {
     width: 1,
     backgroundColor: "#E4E4E4"
+  },
+  avatarContainer: {
+    borderRadius: 1000,
+    backgroundColor: "#6C72F8",
+    height: 90,
+    width: 90,
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+    margin: 20
+  },
+  avatarInitials: {
+    padding: 0,
+    margin: 0,
+    fontFamily: "Helvetica",
+    fontWeight: "900",
+    fontSize: 45,
+    color: "white"
+  },
+  infoContainer: {
+    display: "flex",
+    flexDirection: "column",
+    margin: 20
+  },
+  nameContainer: {
+    padding: 0,
+    margin: 0,
+    fontFamily: "Helvetica",
+    fontWeight: "900",
+    fontSize: 45,
+    color: "#383838"
+  },
+  pointsContainer: {
+    padding: 0,
+    margin: 0,
+    fontFamily: "Helvetica",
+    fontWeight: "400",
+    fontSize: 23,
+    color: "#9C9C9C"
+  },
+  bioContainer: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  bio: {
+    padding: 0,
+    fontFamily: "Helvetica",
+    fontWeight: "350",
+    fontSize: 23,
+    color: "#9C9C9C",
+    margin: 20
+  }, 
+  profileContainer: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  infoRow: {
+    display: "flex",
+    flexDirection: "row",
   }
 };
 
@@ -100,6 +159,22 @@ class TaskScreen extends Component {
       <div style={styles.container}>
         <p style={styles.header}>Profile</p>
         <div style={styles.taskContainer}>
+          <div style={styles.profileContainer}>
+          <div style={styles.infoRow}>
+          <div style={styles.avatarContainer}>
+            <p style={styles.avatarInitials}>CN</p>
+          </div>
+          <div style={styles.infoContainer}>
+            <p style={styles.nameContainer}>Christine Nguyen</p>
+            <p style={styles.pointsContainer}>Age 6</p>
+            <p style={styles.pointsContainer}>🎁12</p>
+          </div>
+          </div>
+          <div>
+            <p style={styles.bio}>Hello! My name is Christine and I like to play soccer and climb trees. I want to be a firefighter in the future.</p>
+          </div>
+          </div>
+          {/* <t>Christine Nguyen</t> */}
           {/* <div style={styles.taskList}>
             <p style={styles.columnHeader}>To-do</p>
             {this.props.tasksToDo.length
