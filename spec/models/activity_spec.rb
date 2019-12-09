@@ -40,5 +40,9 @@ describe Activity do
             assc = Activity.reflect_on_association(:administrator)
             expect(assc.macro).to eq :belongs_to
         end
+        it "has many child activities" do
+            assc = Activity.reflect_on_association(:child_activities)
+            expect(assc.macro).to eq :has_many
+        end
     end
 end

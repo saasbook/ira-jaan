@@ -31,5 +31,9 @@ describe Reward do
             assc = Reward.reflect_on_association(:administrator)
             expect(assc.macro).to eq :belongs_to
         end
+        it "has many child rewards" do
+            assc = Reward.reflect_on_association(:child_rewards)
+            expect(assc.macro).to eq :has_many
+        end
     end
 end

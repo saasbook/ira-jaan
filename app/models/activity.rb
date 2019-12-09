@@ -4,4 +4,6 @@ class Activity < ApplicationRecord
 
     belongs_to :administrator
     validates :administrator, presence: true
+
+    has_many :child_activities, :dependent => :destroy
 end

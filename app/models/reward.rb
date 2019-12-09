@@ -4,4 +4,6 @@ class Reward < ApplicationRecord
 
   belongs_to :administrator
   validates :administrator, presence: true
+
+  has_many :child_rewards, :dependent => :destroy
 end
