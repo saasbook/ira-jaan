@@ -4,7 +4,7 @@ class AdministratorsController < ApplicationController
 
   def administrator_params
       params.require(:administrator).permit(:username, :password, :name, :age,
-          :email, :language, :description, :points, :search)
+          :email, :language, :description, :points, :admin_type, :search)
   end
 
   def set_admin

@@ -1,5 +1,5 @@
 class Administrator < ApplicationRecord
-    validates :username, :password, :name, :points, :email, presence: true
+    validates :username, :password, :name, :points, :email, :admin_type, presence: true
     validates :username, uniqueness: true
     validates :points, numericality: {greater_than_or_equal_to: 0}
 

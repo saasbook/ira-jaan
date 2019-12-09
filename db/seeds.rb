@@ -10,7 +10,7 @@
 
 administrators = [{username: "stephen", password: "password", name: "Stephen Zhou",
      age: 21, email: "stephen@email.com", language: "English", description: "hello",
-     points: 10}]
+     points: 10, admin_type: "Teacher"}]
 
 administrators.each do |administrator|
     Administrator.create!(administrator)

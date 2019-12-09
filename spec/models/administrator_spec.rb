@@ -3,7 +3,8 @@ require "rails_helper"
 describe Administrator do
     describe "Validations" do
         subject { Administrator.new(username: "john", password: "password",
-            name: "John Smith", points: 0, email:"johnsmith@gmail.com") }
+            name: "John Smith", points: 0, email:"johnsmith@gmail.com",
+            admin_type: "Teacher") }
         it "is valid with valid attributes" do
             expect(subject).to be_valid
         end
@@ -27,12 +28,16 @@ describe Administrator do
             subject.email = nil
             expect(subject).to_not be_valid
         end
+        it "is not valid without an admin type" do
+            subject.admin_type = nil
+            expect(subject).to_not be_valid
+        end
         it "is not valid with negative points" do
             subject.points = -1
             expect(subject).to_not be_valid
         end
     end
-    
+
     describe "Associations" do
         it "has many connections" do
             assc = Administrator.reflect_on_association(:connections)

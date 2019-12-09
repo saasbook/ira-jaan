@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_062437) do
+ActiveRecord::Schema.define(version: 2019_12_09_092906) do
 
   create_table "activities", force: :cascade do |t|
     t.string "title"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 2019_12_02_062437) do
     t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "type"
+    t.string "admin_type"
   end
 
   create_table "child_activities", force: :cascade do |t|
