@@ -17,7 +17,9 @@ Rails.application.routes.draw do
           get 'start', to: 'activities#start', as: :start_activity, on: :member
       end
       post 'activities/:id', to: 'activities#interact'
-      resources :rewards
+      resources :rewards do
+          get 'claim', to: 'rewards#claim', as: :claim_reward, on: :member
+      end
   end
   get 'administrators/:id/connect', to: 'administrators#connect', as: :connect_admin
   get 'administrators/:id/points', to: 'administrators#add_points', as: :admin_points

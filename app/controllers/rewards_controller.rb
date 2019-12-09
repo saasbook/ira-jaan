@@ -53,4 +53,20 @@ class RewardsController < ApplicationController
         @reward.destroy
         flash[:notice] = "Reward \"#{@reward.name}\" was deleted."
     end
+
+    # Used by a child to claim a reward on an administrator's profile page.
+    def claim
+        @child = current_user
+        if @child.instance_of? Child
+            @child.points -= @reward.points_cost
+            if @child.points < 0
+                flash[:notice] = "You don't have enough points to claim this reward!"\
+                @child.points += @reward.points_cost
+            else
+                @child.rewards << @reward
+                @child_reward = @child.child_rewards.where(reward_id: @reward.id).first
+                # TODO: add stuff here to send notification email to administrator.
+            end
+        end
+    end
 end
