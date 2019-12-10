@@ -60,7 +60,7 @@ class RewardsController < ApplicationController
         if @child.instance_of? Child
             @child.points -= @reward.points_cost
             if @child.points < 0
-                flash[:notice] = "You don't have enough points to claim this reward!"\
+                flash[:notice] = "You don't have enough points to claim this reward!"
                 @child.points += @reward.points_cost
             else
                 @child.rewards << @reward
