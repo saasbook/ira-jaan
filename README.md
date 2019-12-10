@@ -10,6 +10,12 @@ Deployed on https://virtualparents.herokuapp.com/
 
 The Ira Jaan foundation is testing a new way to have individual donors sponsor and take care of orphan children monetarily. We made this website to personally connect donors to children by rewarding students for hard work with gifts they could select from. Students can get virtual points for activities they perform and points are approved by teachers or donor "parents." Points can be redeemed for gifts.
 
+## Requirements
+
+We used Rails as our backend server, used React for our frontend components, and kept track of state using Redux.
+* React-Redux 7.1.3
+* Rails 6.0.0
+
 ## Setup for Local Environment
 
 Run yarn install in the main directory.
