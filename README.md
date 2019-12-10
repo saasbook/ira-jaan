@@ -31,3 +31,7 @@ rails s
 ```
 
 The website should now be running on `localhost:3000`.
+
+## Links
+
+Final Presentation - https://docs.google.com/presentation/d/1FmU6pMa7RN-m0QFjBiOwfp97i4PLkA3nnFSIVagn8vA/edit?usp=sharing
