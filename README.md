@@ -12,7 +12,7 @@ The Ira Jaan foundation is testing a new way to have individual donors sponsor a
 
 ## Requirements
 
-We used Rails as our backend server, used React for our frontend components, and kept track of state using Redux.
+We used Rails as our backend server, React for our frontend components, and Redux to keep track of state.
 * React-Redux 7.1.3
 * Rails 6.0.0
 
