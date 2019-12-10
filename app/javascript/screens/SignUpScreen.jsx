@@ -110,7 +110,7 @@ const styles = {
     margin: 0,
     fontFamily: "Helvetica",
     fontWeight: "600",
-    color: "#999999"
+    color: "#383838"
   },
   selectedRoleName: {
     fontSize: 18,
