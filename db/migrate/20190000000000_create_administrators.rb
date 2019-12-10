@@ -9,7 +9,7 @@ class CreateAdministrators < ActiveRecord::Migration[6.0]
         t.string :language
         t.text :description
         t.integer :points
-  
+
         t.timestamps
       end
     end
