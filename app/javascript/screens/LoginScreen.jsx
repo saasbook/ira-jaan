@@ -61,7 +61,7 @@ const styles = {
     height: 50,
     width: 150,
     marginTop: 20,
-    backgroundColor: "#6C72F8",
+    backgroundColor: "#605bfc",
     borderRadius: 5,
     borderWidth: 0,
     borderColor: "transparent",

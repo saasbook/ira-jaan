@@ -46,7 +46,7 @@ const styles = {
   button: {
     height: 50,
     width: 150,
-    backgroundColor: "#6C72F8",
+    backgroundColor: "#605bfc",
     borderRadius: 5,
     borderWidth: 0,
     borderColor: "transparent",
