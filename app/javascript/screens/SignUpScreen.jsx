@@ -291,6 +291,7 @@ function StudentForm(props) {
       <p style={styles.textInputLabel}>FIRST NAME</p>
       <input
         type="text"
+        aria-label="first name"
         value={props.firstName}
         onChange={props.onChangeFirstName}
         style={styles.textInput}
@@ -298,6 +299,7 @@ function StudentForm(props) {
       <p style={styles.textInputLabel}>LAST NAME</p>
       <input
         type="text"
+        aria-label="last name"
         value={props.lastName}
         onChange={props.onChangeLastName}
         style={styles.textInput}
@@ -305,6 +307,7 @@ function StudentForm(props) {
       <p style={styles.textInputLabel}>USERNAME</p>
       <input
         type="text"
+        aria-label="username"
         value={props.username}
         onChange={props.onChangeUsername}
         style={styles.textInput}
@@ -312,6 +315,7 @@ function StudentForm(props) {
       <p style={styles.textInputLabel}>PASSWORD</p>
       <input
         type="text"
+        aria-label="password"
         value={props.password}
         onChange={props.onChangePassword}
         style={styles.textInput}
@@ -319,6 +323,7 @@ function StudentForm(props) {
       <p style={styles.textInputLabel}>AGE</p>
       <input
         type="text"
+        aria-label="age"
         value={props.age}
         onChange={props.onChangeAge}
         style={styles.textInput}
@@ -333,6 +338,7 @@ function AdminForm(props) {
       <p style={styles.textInputLabel}>FIRST NAME</p>
       <input
         type="text"
+        aria-label="first name"
         value={props.firstName}
         onChange={props.onChangeFirstName}
         style={styles.textInput}
@@ -340,6 +346,7 @@ function AdminForm(props) {
       <p style={styles.textInputLabel}>LAST NAME</p>
       <input
         type="text"
+        aria-label="first name"
         value={props.lastName}
         onChange={props.onChangeLastName}
         style={styles.textInput}
@@ -347,6 +354,7 @@ function AdminForm(props) {
       <p style={styles.textInputLabel}>EMAIL</p>
       <input
         type="text"
+        aria-label="first name"
         value={props.email}
         onChange={props.onChangeEmail}
         style={styles.textInput}
@@ -354,6 +362,7 @@ function AdminForm(props) {
       <p style={styles.textInputLabel}>USERNAME</p>
       <input
         type="text"
+        aria-label="first name"
         value={props.username}
         onChange={props.onChangeUsername}
         style={styles.textInput}
@@ -361,6 +370,7 @@ function AdminForm(props) {
       <p style={styles.textInputLabel}>PASSWORD</p>
       <input
         type="text"
+        aria-label="first name"
         value={props.password}
         onChange={props.onChangePassword}
         style={styles.textInput}

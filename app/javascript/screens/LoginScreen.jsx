@@ -162,6 +162,7 @@ class LoginScreen extends Component {
             <p style={styles.textInputLabel}>USERNAME</p>
             <input
               type="text"
+              aria-label="username"
               value={this.state.username}
               onChange={this.onChangeUsername}
               style={styles.textInput}
@@ -169,6 +170,7 @@ class LoginScreen extends Component {
             <p style={styles.textInputLabel}>PASSWORD</p>
             <input
               type="text"
+              aria-label="password"
               value={this.state.password}
               onChange={this.onChangePassword}
               style={styles.textInput}
@@ -185,7 +187,7 @@ class LoginScreen extends Component {
         );
       }
     }
-    
+
     // Redux Container that passes in redux state
     const Container = connect(
   createStructuredSelector({
@@ -194,6 +196,6 @@ class LoginScreen extends Component {
       }),
   {setUser}
         )(LoginScreen);
-        
+
         // We use the container in other files like a UI component
         export default Container;
