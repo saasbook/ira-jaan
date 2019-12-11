@@ -2,6 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import axios from "axios";
+import { Redirect, Link } from "react-router-dom";
+
+// Redux action that calls API
+function setTasks(tasks) {
+  console.log("SET TASKS ACTION");
+  // api request tasks
+  return {
+    type: "SET_TASKS",
+    tasks
+  };
+}
 
 // Component Styles
 const styles = {
@@ -14,6 +25,7 @@ const styles = {
     margin: 0,
     paddingLeft: 95,
     paddingRight: 95
+    // paddingBottom: 60
   },
   header: {
     fontSize: 70,
@@ -53,6 +65,14 @@ const styles = {
     fontWeight: "600",
     marginLeft: 15
   },
+  taskPoints: {
+    fontSize: 20,
+    fontFamily: "Helvetica-Light",
+    color: "#757575",
+    fontWeight: "600",
+    marginLeft: 15
+  },
+
   emptyCheckBox: {
     height: 20,
     width: 20,
@@ -82,98 +102,49 @@ const styles = {
     width: 1,
     backgroundColor: "#E4E4E4"
   },
-  avatarContainer: {
-    borderRadius: 1000,
-    backgroundColor: "#6C72F8",
-    height: 90,
-    width: 90,
-    alignItems: "center",
-    justifyContent: "center",
-    display: "flex",
-    margin: 20
-  },
-  avatarInitials: {
-    padding: 0,
-    margin: 0,
+  navLink: {
+    color: "#6A6A6A",
+    fontSize: 16,
     fontFamily: "Helvetica",
-    fontWeight: "900",
-    fontSize: 45,
-    color: "white"
-  },
-  infoContainer: {
-    display: "flex",
-    flexDirection: "column",
-    margin: 20
-  },
-  nameContainer: {
-    padding: 0,
-    margin: 0,
-    fontFamily: "Helvetica",
-    fontWeight: "900",
-    fontSize: 45,
-    color: "#383838"
-  },
-  pointsContainer: {
-    padding: 0,
-    margin: 0,
-    fontFamily: "Helvetica",
-    fontWeight: "400",
-    fontSize: 23,
-    color: "#9C9C9C"
-  },
-  bioContainer: {
-    display: "flex",
-    flexDirection: "row"
-  },
-  bio: {
-    padding: 0,
-    fontFamily: "Helvetica",
-    fontWeight: "350",
-    fontSize: 23,
-    color: "#9C9C9C",
-    margin: 20
-  },
-  profileContainer: {
-    display: "flex",
-    flexDirection: "column"
-  },
-  infoRow: {
-    display: "flex",
-    flexDirection: "row",
+    fontWeight: "500",
+    textDecoration: "none",
   }
 };
 
-// TaskScreen UI Component
-class TaskScreen extends Component {
+// AdminActivitiesScreen UI Component
+class AdminActivitiesScreen extends Component {
   componentDidMount() {
-    // axios
-    //   .get("/tasks/index")
-    //   .then(response => {
-    //     let tasks = response.data;
-    //     this.props.setTasks(tasks);
-    //   })
-    //   .catch(error => console.log(error));
+    axios
+      .get(`administrators/${this.props.user.id}/activities`)
+      .then(response => {
+        let tasks = response.data.activities;
+        this.props.setTasks(tasks);
+      })
+      .catch(error => console.log(error));
   }
   render() {
     return (
       <div style={styles.container}>
-        <p style={styles.header}>Profile</p>
+        <p style={styles.header}>Hello {this.props.user.name}!</p>
         <div style={styles.taskContainer}>
-          <div style={styles.profileContainer}>
-          <div style={styles.infoRow}>
-          <div style={styles.avatarContainer}>
-            <p style={styles.avatarInitials}>{this.props.user.name.split(" ").map(n=>n.charAt(0)).join('')}</p>
+          <div style={styles.taskList}>
+            <div >
+                <Link to="/create_activity" style={styles.navLink}>
+                    <p>Create Activity</p>
+                </Link>
+                <p style={styles.columnHeader}>Your created activities</p>
+            </div>
+            {this.props.tasksToDo.length
+              ? this.props.tasksToDo.map(task => <AdminTaskCell task={task} />)
+              : null}
           </div>
-          <div style={styles.infoContainer}>
-                <p style={styles.nameContainer}>{this.props.user.name}</p>
-            <p style={styles.pointsContainer}>Age {this.props.user.age}</p>
-                <p style={styles.pointsContainer}>🎁{this.props.user.points}</p>
-          </div>
-          </div>
-          <div>
-              <p style={styles.bio}>{this.props.user.description}</p>
-          </div>
-          </div>
+          {/* <Divider /> */}
+          {/* <div style={styles.taskList}> */}
+            {/* <p style={styles.columnHeader}>Done</p>
+            {this.props.tasksCompleted.length
+              ? this.props.tasksCompleted.map(task => <TaskCell task={task} />)
+              : null} */}
+          {/* </div> */}
         </div>
       </div>
     );
@@ -194,7 +165,16 @@ function TaskCell(props) {
             : styles.emptyCheckBox
         }
       />
-      <p style={styles.taskName}>{props.task.name}</p>
+      <p style={styles.taskName}>{props.task.title}</p>
+    </div>
+  );
+}
+
+function AdminTaskCell(props) {
+  return (
+    <div style={styles.taskCell}>
+      <p style={styles.taskPoints}>{props.task.points_reward}</p>
+      <p style={styles.taskName}>{props.task.title}</p>
     </div>
   );
 }
@@ -207,8 +187,8 @@ const Container = connect(
     tasksCompleted: state =>
       state.tasks.filter(task => task.status === "COMPLETED")
   }),
-  null
-)(TaskScreen);
+  { setTasks }
+)(AdminActivitiesScreen);
 
 // We use the container in other files like a UI component
 export default Container;

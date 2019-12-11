@@ -3,6 +3,17 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import axios from "axios";
 
+function setUser({ user }) {
+    console.log(`Logout`);
+    //   try login
+
+    return {
+      type: "SET_USER",
+      user: user ,
+    };
+  }
+
+
 // Component Styles
 const styles = {
   container: {
@@ -143,72 +154,23 @@ const styles = {
   }
 };
 
-// TaskScreen UI Component
-class TaskScreen extends Component {
-  componentDidMount() {
-    // axios
-    //   .get("/tasks/index")
-    //   .then(response => {
-    //     let tasks = response.data;
-    //     this.props.setTasks(tasks);
-    //   })
-    //   .catch(error => console.log(error));
+// LogOutScreen UI Component
+class LogOutScreen extends Component {
+    componentDidMount() {
+        this.props.setUser({ user: null })
   }
-  render() {
-    return (
-      <div style={styles.container}>
-        <p style={styles.header}>Profile</p>
-        <div style={styles.taskContainer}>
-          <div style={styles.profileContainer}>
-          <div style={styles.infoRow}>
-          <div style={styles.avatarContainer}>
-            <p style={styles.avatarInitials}>{this.props.user.name.split(" ").map(n=>n.charAt(0)).join('')}</p>
-          </div>
-          <div style={styles.infoContainer}>
-                <p style={styles.nameContainer}>{this.props.user.name}</p>
-            <p style={styles.pointsContainer}>Age {this.props.user.age}</p>
-                <p style={styles.pointsContainer}>🎁{this.props.user.points}</p>
-          </div>
-          </div>
-          <div>
-              <p style={styles.bio}>{this.props.user.description}</p>
-          </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-function Divider() {
-  return <div style={styles.divider} />;
-}
-
-function TaskCell(props) {
-  return (
-    <div style={styles.taskCell}>
-      <div
-        style={
-          props.task.status === "COMPLETED"
-            ? styles.fullCheckBox
-            : styles.emptyCheckBox
-        }
-      />
-      <p style={styles.taskName}>{props.task.name}</p>
-    </div>
-  );
+    render() {
+        return (<div></div>
+        );
+    }
 }
 
 // Redux Container that passes in redux state
 const Container = connect(
   createStructuredSelector({
-    user: state => state.user,
-    tasksToDo: state => state.tasks.filter(task => task.status !== "COMPLETED"),
-    tasksCompleted: state =>
-      state.tasks.filter(task => task.status === "COMPLETED")
-  }),
-  null
-)(TaskScreen);
+    user: state => null,
+  }), {setUser}
+)(LogOutScreen);
 
 // We use the container in other files like a UI component
 export default Container;

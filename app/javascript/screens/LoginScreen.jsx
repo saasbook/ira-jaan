@@ -5,12 +5,13 @@ import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 
 // Redux action that calls API
-function setUser({ username, password }) {
-  console.log("GET THINGS ACTION");
+function setUser({ user }) {
+  console.log(`Login (as admin? ${user.admin_type})`);
   //   try login
+
   return {
     type: "SET_USER",
-    user: { username }
+    user: user ,
   };
 }
 
@@ -129,25 +130,19 @@ class LoginScreen extends Component {
     const { username, password } = this.state;
     console.log("HERE", this.state);
     // see if user exists and if so then setUser
-    // axios
-    //   .post("admin/create", {
-    //     administrator: {
-    //       username: "shawn9",
-    //       password: "shawn",
-    //       name: "shawn",
-    //       age: "99",
-    //       email: "shawn@shawn.com",
-    //       language: "English",
-    //       description: "",
-    //       points: 0
-    //     }
-    //   })
-    //   .then(response => {
-    //     let administrator = response.data.administrator;
-    //     this.props.setUser(administrator);
-    //   })
-    //   .catch(error => console.log(error));
-    this.props.setUser({ username, password });
+    axios
+      .post("/login/user", {
+          username: username,
+          password: password,
+      })
+      .then(response => {
+        console.log(response)
+        let user = response.data
+        console.log(user)
+        this.props.setUser({ user });
+
+      })
+      .catch(error => console.log(error));
   };
   render() {
     return (
@@ -168,7 +163,7 @@ class LoginScreen extends Component {
             />
             <p style={styles.textInputLabel}>PASSWORD</p>
             <input
-              type="text"
+              type="password"
               value={this.state.password}
               onChange={this.onChangePassword}
               style={styles.textInput}
@@ -185,7 +180,7 @@ class LoginScreen extends Component {
         );
       }
     }
-    
+
     // Redux Container that passes in redux state
     const Container = connect(
   createStructuredSelector({
@@ -194,6 +189,6 @@ class LoginScreen extends Component {
       }),
   {setUser}
         )(LoginScreen);
-        
+
         // We use the container in other files like a UI component
         export default Container;

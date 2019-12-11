@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   # devise_for :administrators
   # devise_for :children
   get 'login/index'
-  post 'login/administrator'
-  post 'login/child'
+  post 'login/user', to: 'login#user'
+  post 'login/administrator', as: :admin_login
+  post 'login/child', as: :child_login
   get 'logout', to: 'login#logout', as: :logout
   get 'welcome/index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -46,4 +47,5 @@ Rails.application.routes.draw do
   get '/signup' => 'welcome#index'
   get '/tasks' => 'welcome#index'
   get '/profile' => 'welcome#index'
+  get '*path' => 'welcome#index'
 end
