@@ -8,12 +8,22 @@
 # Administrator.delete_all
 # Activity.delete_all
 
-administrators = [{username: "stephen", password: "password", name: "Stephen Zhou",
+administrators = [
+    {username: "stephen", password: "password", name: "Stephen Zhou",
      age: 21, email: "stephen@email.com", language: "English", description: "hello",
      points: 10, admin_type: "Teacher"}]
 
+children = [{username: "christine", password: "password", name: "Christine Nguyen",
+age: 9, language: "English",
+description: "Hello! My name is Christine and I like to play soccer and climb trees. I want to be a firefighter in the future.",
+points: 10}]
+
 administrators.each do |administrator|
     Administrator.create!(administrator)
+end
+
+children.each do |child|
+    Child.create!(child)
 end
 
 activities = [{title: "Do chores", description: "Do your chores!", points_reward: 10,

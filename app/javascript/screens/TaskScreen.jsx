@@ -99,7 +99,7 @@ const styles = {
 class TaskScreen extends Component {
   componentDidMount() {
     axios
-      .get("administrators/2/activities")
+      .get("administrators/1/activities")
       .then(response => {
         let tasks = response.data.activities;
         this.props.setTasks(tasks);

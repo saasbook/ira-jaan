@@ -5,6 +5,7 @@ class ActivitiesController < ApplicationController
     before_action :get_admin, if: -> {params[:administrator_id].present?}
     before_action :get_child, if: -> {params[:child_id].present?}
     before_action :set_activity, only: [:show, :edit, :update, :destroy, :start, :finish, :approve]
+    skip_before_action :verify_authenticity_token
 
     def activity_params
         params.require(:activity).permit(:title, :description, :points_reward,
