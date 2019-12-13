@@ -34,4 +34,29 @@ The website should now be running on `localhost:3000`.
 
 ## Links
 
-Final Presentation - https://docs.google.com/presentation/d/1FmU6pMa7RN-m0QFjBiOwfp97i4PLkA3nnFSIVagn8vA/edit?usp=sharing
+Final Presentation Slides - https://docs.google.com/presentation/d/1FmU6pMa7RN-m0QFjBiOwfp97i4PLkA3nnFSIVagn8vA/edit?usp=sharing
+Video Overview - https://youtu.be/v96Bwf5QNn4
+
+## Implemented Features
+
+### Frontend
+
+1. Log in as Child or Administrator (Teacher/Parent)
+2. Sign up as Child or Administrator (Teacher/Parent)
+3. View activities as child
+4. View created activities as Administrator
+5. Create new activities as Administrator
+6. View profile as all users
+7. Log out
+
+
+### Backend 
+
+Everything in the front-end and:
+1. Child can start and finish activities listed under Administrators
+2. Administrators can approve finished child activities, rewarding the corresponding child points.
+3. Administrators can create rewards
+4. Child can claim rewards listed under Administrators
+5. Administrators and children can be connected
+6. Can search administrators and children by name/username
+
