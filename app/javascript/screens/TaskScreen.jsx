@@ -75,9 +75,9 @@ const styles = {
     height: 20,
     width: 20,
     borderRadius: 5,
-    border: "3px solid #6C72F8",
+    border: "3px solid #605bfc",
     marginLeft: 40,
-    backgroundColor: "#6C72F8"
+    backgroundColor: "#605bfc"
   },
   taskCell: {
     display: "flex",

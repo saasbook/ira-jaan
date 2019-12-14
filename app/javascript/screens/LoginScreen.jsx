@@ -62,7 +62,7 @@ const styles = {
     height: 50,
     width: 150,
     marginTop: 20,
-    backgroundColor: "#6C72F8",
+    backgroundColor: "#605bfc",
     borderRadius: 5,
     borderWidth: 0,
     borderColor: "transparent",
@@ -157,6 +157,7 @@ class LoginScreen extends Component {
             <p style={styles.textInputLabel}>USERNAME</p>
             <input
               type="text"
+              aria-label="username"
               value={this.state.username}
               onChange={this.onChangeUsername}
               style={styles.textInput}
@@ -164,6 +165,7 @@ class LoginScreen extends Component {
             <p style={styles.textInputLabel}>PASSWORD</p>
             <input
               type="password"
+              aria-label="password"
               value={this.state.password}
               onChange={this.onChangePassword}
               style={styles.textInput}
