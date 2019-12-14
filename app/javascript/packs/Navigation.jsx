@@ -13,7 +13,10 @@ import { createStructuredSelector } from "reselect";
 import posed from "react-pose";
 
 import LoginScreen from "../screens/LoginScreen";
+import LogOutScreen from "../screens/LogoutScreen";
 import TaskScreen from "../screens/TaskScreen";
+import AdminActivitiesScreen from "../screens/AdminActivitiesScreen";
+import CreateActivityScreen from "../screens/CreateActivityScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
@@ -35,7 +38,7 @@ const SlideOutMenu = posed.div({
 });
 
 function Navigation(props) {
-  console.log("USER:", props.user);
+  console.log(`NAV CALLED ${props}`)
   return (
     <Router>
       <div>
@@ -58,7 +61,7 @@ function Navigation(props) {
               <Link style={styles.navLink} to="/profile">
                 Profile
               </Link>
-              <Link style={styles.navLink} to="/login">
+              <Link style={styles.navLink} to="/logout">
                 Log Out
               </Link>
             </div>
@@ -72,15 +75,26 @@ function Navigation(props) {
           <Route path="/signup">
             {props.user ? <Redirect to="/tasks" /> : <SignUpScreen />}
           </Route>
+          <Route path="/logout">
+            {props.user ? <LogOutScreen /> : <Redirect to="/login" />}
+          </Route>
           <Route path="/login">
-            {props.user ? <Redirect to="/tasks" /> : <LoginScreen />}
+            {props.user ? (props.user.admin_type ? <Redirect to="/admin_activities" /> : <Redirect to="/tasks" />)
+              : <LoginScreen />}
           </Route>
           <Route path="/profile">
             <ProfileScreen />
           </Route>
           <Route path="/tasks">
-            <TaskScreen />
+            {props.user ? <TaskScreen /> : <Redirect to="/login" />}
           </Route>
+          <Route path="/admin_activities">
+            {props.user ? <AdminActivitiesScreen /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/create_activity">
+            {props.user ? <CreateActivityScreen /> : <Redirect to="/login" />}
+          </Route>
+
         </Switch>
       </div>
     </Router>

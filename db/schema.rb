@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_092906) do
     t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "type"
     t.string "admin_type"
   end
 

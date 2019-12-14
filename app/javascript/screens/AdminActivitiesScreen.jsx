@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import axios from "axios";
+import { Redirect, Link } from "react-router-dom";
 
 // Redux action that calls API
 function setTasks(tasks) {
@@ -64,6 +65,14 @@ const styles = {
     fontWeight: "600",
     marginLeft: 15
   },
+  taskPoints: {
+    fontSize: 20,
+    fontFamily: "Helvetica-Light",
+    color: "#757575",
+    fontWeight: "600",
+    marginLeft: 15
+  },
+
   emptyCheckBox: {
     height: 20,
     width: 20,
@@ -75,9 +84,9 @@ const styles = {
     height: 20,
     width: 20,
     borderRadius: 5,
-    border: "3px solid #605bfc",
+    border: "3px solid #6C72F8",
     marginLeft: 40,
-    backgroundColor: "#605bfc"
+    backgroundColor: "#6C72F8"
   },
   taskCell: {
     display: "flex",
@@ -92,14 +101,21 @@ const styles = {
   divider: {
     width: 1,
     backgroundColor: "#E4E4E4"
+  },
+  navLink: {
+    color: "#6A6A6A",
+    fontSize: 16,
+    fontFamily: "Helvetica",
+    fontWeight: "500",
+    textDecoration: "none",
   }
 };
 
-// TaskScreen UI Component
-class TaskScreen extends Component {
+// AdminActivitiesScreen UI Component
+class AdminActivitiesScreen extends Component {
   componentDidMount() {
     axios
-      .get("administrators/1/activities")
+      .get(`administrators/${this.props.user.id}/activities`)
       .then(response => {
         let tasks = response.data.activities;
         this.props.setTasks(tasks);
@@ -109,21 +125,26 @@ class TaskScreen extends Component {
   render() {
     return (
       <div style={styles.container}>
-        <p style={styles.header}>Daily Goals</p>
+        <p style={styles.header}>Hello {this.props.user.name}!</p>
         <div style={styles.taskContainer}>
           <div style={styles.taskList}>
-            <p style={styles.columnHeader}>To-do</p>
+            <div >
+                <Link to="/create_activity" style={styles.navLink}>
+                    <p>Create Activity</p>
+                </Link>
+                <p style={styles.columnHeader}>Your created activities</p>
+            </div>
             {this.props.tasksToDo.length
-              ? this.props.tasksToDo.map(task => <TaskCell task={task} />)
+              ? this.props.tasksToDo.map(task => <AdminTaskCell task={task} />)
               : null}
           </div>
-          <Divider />
-          <div style={styles.taskList}>
-            <p style={styles.columnHeader}>Done</p>
+          {/* <Divider /> */}
+          {/* <div style={styles.taskList}> */}
+            {/* <p style={styles.columnHeader}>Done</p>
             {this.props.tasksCompleted.length
               ? this.props.tasksCompleted.map(task => <TaskCell task={task} />)
-              : null}
-          </div>
+              : null} */}
+          {/* </div> */}
         </div>
       </div>
     );
@@ -149,6 +170,15 @@ function TaskCell(props) {
   );
 }
 
+function AdminTaskCell(props) {
+  return (
+    <div style={styles.taskCell}>
+      <p style={styles.taskPoints}>{props.task.points_reward}</p>
+      <p style={styles.taskName}>{props.task.title}</p>
+    </div>
+  );
+}
+
 // Redux Container that passes in redux state
 const Container = connect(
   createStructuredSelector({
@@ -158,7 +188,7 @@ const Container = connect(
       state.tasks.filter(task => task.status === "COMPLETED")
   }),
   { setTasks }
-)(TaskScreen);
+)(AdminActivitiesScreen);
 
 // We use the container in other files like a UI component
 export default Container;

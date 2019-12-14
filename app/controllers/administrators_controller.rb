@@ -1,6 +1,8 @@
 class AdministratorsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   before_action :set_admin, only: [:show, :edit, :update, :destroy, :connect]
-  skip_before_action :authorized, only: [:new, :create]
+  # skip_before_action :authorized, only: [:new, :create]
 
   def administrator_params
       params.require(:administrator).permit(:username, :password, :name, :age,
